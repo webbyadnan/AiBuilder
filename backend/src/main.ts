@@ -14,9 +14,12 @@ async function bootstrap() {
     new ValidationPipe({ whitelist: true, forbidNonWhitelisted: true }),
   );
 
-  app.setGlobalPrefix('api');
+  // Keep / and /health outside the api prefix for Railway healthcheck
+  app.setGlobalPrefix('api', { exclude: ['/', '/health'] });
 
-  await app.listen(process.env.PORT || 3001);
-  console.log(`🚀 Backend running at http://localhost:${process.env.PORT || 3001}`);
+  const port = process.env.PORT || 3001;
+  // Bind to 0.0.0.0 so Railway can reach the container
+  await app.listen(port, '0.0.0.0');
+  console.log(`🚀 Backend running on port ${port}`);
 }
 bootstrap();
