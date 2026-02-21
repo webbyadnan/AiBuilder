@@ -6,26 +6,32 @@ import express from 'express';
 
 const server = express();
 
+let app: any;
+
 const bootstrap = async () => {
-    const app = await NestFactory.create(
-        AppModule,
-        new ExpressAdapter(server)
-    );
+    if (!app) {
+        app = await NestFactory.create(
+            AppModule,
+            new ExpressAdapter(server)
+        );
 
-    app.enableCors({
-        origin: process.env.FRONTEND_URL || 'http://localhost:3000',
-        credentials: true,
-    });
+        app.enableCors({
+            origin: process.env.FRONTEND_URL || 'http://localhost:3000',
+            credentials: true,
+        });
 
-    app.useGlobalPipes(
-        new ValidationPipe({ whitelist: true, forbidNonWhitelisted: true }),
-    );
+        app.useGlobalPipes(
+            new ValidationPipe({ whitelist: true, forbidNonWhitelisted: true }),
+        );
 
-    app.setGlobalPrefix('api', { exclude: ['/', '/health'] });
+        app.setGlobalPrefix('api', { exclude: ['/', '/health'] });
 
-    await app.init();
+        await app.init();
+    }
+    return app;
 };
 
-bootstrap();
-
-export default server;
+export default async (req: any, res: any) => {
+    await bootstrap();
+    server(req, res);
+};
