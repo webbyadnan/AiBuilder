@@ -1,0 +1,9 @@
+{
+    "name": "aisitebuilder-root",
+    "private": true,
+    "scripts": {
+        "build": "npm run build --prefix frontend",
+        "install": "npm install --prefix frontend",
+        "start": "npm start --prefix frontend"
+    }
+}
