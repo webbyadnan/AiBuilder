@@ -1,5 +1,6 @@
 import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
+import { AppController } from './app.controller';
 import { AuthModule } from './auth/auth.module';
 import { ProjectsModule } from './projects/projects.module';
 import { AiModule } from './ai/ai.module';
@@ -17,5 +18,6 @@ import { SupabaseModule } from './supabase/supabase.module';
     AdminModule,
     CommunityModule,
   ],
+  controllers: [AppController],
 })
 export class AppModule { }

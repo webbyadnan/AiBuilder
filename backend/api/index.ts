@@ -23,8 +23,6 @@ const bootstrap = async () => {
             new ValidationPipe({ whitelist: true, forbidNonWhitelisted: true }),
         );
 
-        cachedApp.setGlobalPrefix('api', { exclude: ['/'] });
-
         await cachedApp.init();
     }
     return cachedApp;
